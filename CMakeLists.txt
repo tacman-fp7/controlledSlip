@@ -13,10 +13,9 @@ set(SOURCES
     controller/src/IncomingData.cpp) 
 
 set(HEADERS
-    controller/src/include/main.h
-    controller/src/include/ControllerUtil.h
-    controller/src/include/DataCollector.h
-    controller/src/include/IncomingData.h) 
+    controller/src/include/controlledSlip/ControllerUtil.h
+    controller/src/include/controlledSlip/DataCollector.h
+    controller/src/include/controlledSlip/IncomingData.h) 
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -120,7 +119,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include ${HEADERS})
+include_directories(controller/src/include)
 
 ## Declare a C++ library
 # add_library(controlledSlip

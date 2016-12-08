@@ -1,4 +1,4 @@
-#include "controlledSlip/ControllersUtil.h"
+#include "controlledSlip/ControllerUtil.h"
 
 using controlledSlip::ControllerUtil;
 
