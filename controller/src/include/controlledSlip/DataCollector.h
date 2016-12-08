@@ -1,6 +1,7 @@
 #ifndef __CONTROLLEDSLIP_DATACOLLECTOR_H__
 #define __CONTROLLEDSLIP_DATACOLLECTOR_H__
 
+#include "ros/ros.h"
 
 
 namespace controlledSlip {
@@ -10,16 +11,18 @@ namespace controlledSlip {
         private:
 
             controlledSlip::IncomingData *incomingData;
+            ros::Subscriber slipLabelsSub;
+            ros::Subscriber encodersSub;
 
         public:
 
 			DataCollector(controlledSlip::IncomingData *incomingData);
 
-            bool subscribeAll();
+            bool subscribeAll(ros::NodeHandle &nodeHandle);
 
         private:
 
-            void updateBioTacData();
+            void updateSlipLabelsData();
 
             void updateEncodersData();
 

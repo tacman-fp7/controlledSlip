@@ -1,6 +1,8 @@
 #ifndef __CONTROLLEDSLIP_CONTROLLERUTIL_H__
 #define __CONTROLLEDSLIP_CONTROLLERUTIL_H__
 
+#include "ros/ros.h"
+
 
 namespace controlledSlip {
 
@@ -9,12 +11,13 @@ namespace controlledSlip {
         private:
 
             IncomingData *incomingData;
+            ros::Publisher encodersPub;
 
         public:
 
 			ControllerUtil(controlledSlip::IncomingData *incomingData);
 
-            void init();
+            void init(ros::NodeHandle &nodeHandle);
 
             bool openHand();
 
