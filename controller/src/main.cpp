@@ -1,5 +1,11 @@
 #include "ros/ros.h"
+#include "controlledSlip/IncomingData.h"
+#include "controlledSlip/DataCollector.h"
+#include "controlledSlip/ControllerUtil.h"
 
+using controlledSlip::IncomingData;
+using controlledSlip::DataCollector;
+using controlledSlip::ControllerUtil;
 
 
 int main(int argc, char * argv[])
@@ -13,7 +19,7 @@ int main(int argc, char * argv[])
     IncomingData incomingData = new IncomingData();
 
     // dataCollector takes care of keeping incomingData updated
-    DataCollector dataCollector = new DataCollector(&incomingData);
+    c dataCollector = new DataCollector(&incomingData);
     dataCollector.subscribeAll(nodeHandle);
 
     // start the asyncronous spinner used to check if new data is available at the topics
