@@ -7,9 +7,19 @@ cmake_minimum_required(VERSION 2.8)
 set(PROJECTNAME controller)
 project(${PROJECTNAME})
 
-set(sources src/main.cpp) 
+set(sources
+    src/main.cpp
+    src/ControllerUtil.cpp
+    src/DataCollector.cpp
+    src/IncomingData.cpp) 
 
-add_executable(${PROJECTNAME} ${sources})
+set(headers
+    src/include/main.h
+    src/include/ControllerUtil.h
+    src/include/DataCollector.h
+    src/include/IncomingData.h) 
+
+add_executable(${PROJECTNAME} ${sources} ${headers})
 target_link_libraries(${PROJECTNAME})
 install(TARGETS ${PROJECTNAME} DESTINATION bin)
 
