@@ -1,7 +1,5 @@
 #include "controlledSlip/DataCollector.h"
 
-#include "std_msgs/String.h"
-
 using controlledSlip::DataCollector;
 
 
@@ -14,21 +12,29 @@ DataCollector::DataCollector(controlledSlip::IncomingData *incomingData){
 bool DataCollector::subscribeAll(ros::NodeHandle &nodeHandle){
 
     // subscribe to the biotacs topic
-    slipLabelsSub = nodeHandle.subscribe("slip_labels",1,&DataCollector::updateSlipLabelsData,this);
+    slipLabelsSub = nodeHandle.subscribe("slip_labels",1,&DataCollector::updateSlipLabelsCallback,this);
     // subscribe to the encoders topic
-    encodersSub = nodeHandle.subscribe("encoders",1,&DataCollector::updateEncodersData,this);
+    encodersSub = nodeHandle.subscribe("/allegroHand/joint_states",1,&DataCollector::updateJointStateCallback,this);
+    // subscribe to the biotacs topic
+    encodersSub = nodeHandle.subscribe("/biotacs",1,&DataCollector::updateBioTacDataCallback,this);
 
 }
 
 
-void DataCollector::updateSlipLabelsData(const std_msgs::String::ConstPtr& msg){
+void DataCollector::updateSlipLabelsCallback(const std_msgs::Float64MultiArray& slipLabels){
 
-    // TODO store slip labels data inside incomingData
+    incomingData->slipLabels = slipLabels;
 }
 
 
-void DataCollector::updateEncodersData(const std_msgs::String::ConstPtr& msg){
+void DataCollector::updateJointStateCallback(const sensor_msgs::JointState& actualJointState){
 
-    // TODO store encoders data inside incomingData
+    incomingData->actualJointState = actualJointState;
+}
+
+
+void DataCollector::updateBioTacDataCallback(const biotacs::BT& bioTacData){
+
+    incomingData->bioTacData = bioTacData;
 }
 

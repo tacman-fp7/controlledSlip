@@ -1,9 +1,12 @@
 #ifndef __CONTROLLEDSLIP_DATACOLLECTOR_H__
 #define __CONTROLLEDSLIP_DATACOLLECTOR_H__
 
-#include "ros/ros.h"
-#include "std_msgs/String.h"
 #include "controlledSlip/IncomingData.h"
+
+#include "ros/ros.h"
+#include "biotacs/BT.h"
+#include "sensor_msgs/JointState.h"
+#include "std_msgs/Float64MultiArray.h"
 
 namespace controlledSlip {
 
@@ -21,9 +24,11 @@ namespace controlledSlip {
 
             bool subscribeAll(ros::NodeHandle &nodeHandle);
 
-            void updateSlipLabelsData(const std_msgs::String::ConstPtr& msg);
+            void updateSlipLabelsCallback(const std_msgs::Float64MultiArray& slipLabels);
 
-            void updateEncodersData(const std_msgs::String::ConstPtr& msg);
+            void updateJointStateCallback(const sensor_msgs::JointState& jointState);
+
+            void updateBioTacDataCallback(const biotacs::BT& bioTacData);
 
     };
 

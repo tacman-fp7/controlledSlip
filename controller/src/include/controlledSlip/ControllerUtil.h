@@ -1,8 +1,9 @@
 #ifndef __CONTROLLEDSLIP_CONTROLLERUTIL_H__
 #define __CONTROLLEDSLIP_CONTROLLERUTIL_H__
 
-#include "ros/ros.h"
 #include "controlledSlip/IncomingData.h"
+
+#include "ros/ros.h"
 
 namespace controlledSlip {
 
@@ -28,6 +29,7 @@ namespace controlledSlip {
 
         private:
 
+            void updateJoints();
 
     };
 

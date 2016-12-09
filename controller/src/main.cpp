@@ -1,7 +1,8 @@
-#include "ros/ros.h"
 #include "controlledSlip/IncomingData.h"
 #include "controlledSlip/DataCollector.h"
 #include "controlledSlip/ControllerUtil.h"
+
+#include "ros/ros.h"
 
 using controlledSlip::IncomingData;
 using controlledSlip::DataCollector;

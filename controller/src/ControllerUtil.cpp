@@ -1,6 +1,6 @@
 #include "controlledSlip/ControllerUtil.h"
 
-#include "std_msgs/String.h"
+#include "sensor_msgs/JointState.h"
 
 using controlledSlip::ControllerUtil;
 
@@ -12,7 +12,7 @@ ControllerUtil::ControllerUtil(controlledSlip::IncomingData *incomingData){
 
 bool ControllerUtil::init(ros::NodeHandle &nodeHandle){
 
-    encodersPub = nodeHandle.advertise<std_msgs::String>("encoders",1);
+    encodersPub = nodeHandle.advertise<sensor_msgs::JointState>("/allegroHand/joint_cmd",1);
 
     return true;
 }
@@ -30,6 +30,11 @@ bool ControllerUtil::graspApproach(){
 bool moveJoint(int jointNumber,double angle){
 
     return true;
+}
+
+void updateJoints(){
+
+    encodersPub.push(incomingData->targetJointState);
 }
 
 
