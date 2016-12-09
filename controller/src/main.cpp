@@ -16,10 +16,10 @@ int main(int argc, char * argv[])
     ros::NodeHandle nodeHandle;
 
     // incomingData contains all the data read from the topics (related to tactile sensors and encoders)
-    IncomingData incomingData = new IncomingData();
+    IncomingData incomingData;
 
     // dataCollector takes care of keeping incomingData updated
-    c dataCollector = new DataCollector(&incomingData);
+    DataCollector dataCollector(&incomingData);
     dataCollector.subscribeAll(nodeHandle);
 
     // start the asyncronous spinner used to check if new data is available at the topics
@@ -27,7 +27,7 @@ int main(int argc, char * argv[])
     spinner.start();
 
     // controllerUtil is used to control the joints of the hand
-    ControllerUtil controllerUtil = new ControllerUtil(&incomingData);
+    ControllerUtil controllerUtil(&incomingData);
     controllerUtil.init(nodeHandle);
 
     // open the hand

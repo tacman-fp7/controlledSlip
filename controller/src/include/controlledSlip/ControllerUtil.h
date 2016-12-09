@@ -6,7 +6,7 @@
 
 namespace controlledSlip {
 
-    class ControllersUtil {
+    class ControllerUtil {
 
         private:
 
@@ -17,7 +17,7 @@ namespace controlledSlip {
 
 			ControllerUtil(controlledSlip::IncomingData *incomingData);
 
-            void init(ros::NodeHandle &nodeHandle);
+            bool init(ros::NodeHandle &nodeHandle);
 
             bool openHand();
 

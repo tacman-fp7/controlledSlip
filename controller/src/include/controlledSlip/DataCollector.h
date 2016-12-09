@@ -2,6 +2,7 @@
 #define __CONTROLLEDSLIP_DATACOLLECTOR_H__
 
 #include "ros/ros.h"
+#include "std_msgs/String.h"
 #include "controlledSlip/IncomingData.h"
 
 namespace controlledSlip {
@@ -20,11 +21,9 @@ namespace controlledSlip {
 
             bool subscribeAll(ros::NodeHandle &nodeHandle);
 
-        private:
+            void updateSlipLabelsData(const std_msgs::String::ConstPtr& msg);
 
-            void updateSlipLabelsData();
-
-            void updateEncodersData();
+            void updateEncodersData(const std_msgs::String::ConstPtr& msg);
 
     };
 
