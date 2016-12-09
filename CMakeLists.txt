@@ -4,7 +4,8 @@ project(controlledSlip)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+ roscpp)
 
 set(SOURCES
     controller/src/main.cpp
@@ -109,7 +110,7 @@ set(HEADERS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES controlledSlip
-#  CATKIN_DEPENDS other_catkin_pkg
+  CATKIN_DEPENDS roscpp
 #  DEPENDS system_lib
 )
 
@@ -119,13 +120,14 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(controller/src/include)
+include_directories(controller/src/include ../../../AllegroROS/allegro_hand_ros/biotacs/msg_gen/cpp/include)
 
 ## Declare a C++ library
 # add_library(controlledSlip
 #   src/${PROJECT_NAME}/controlledSlip.cpp
 # )
-add_library(controlledSlip ${SOURCES})
+#add_library(controlledSlip ${SOURCES})
+
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -133,16 +135,16 @@ add_library(controlledSlip ${SOURCES})
 # add_dependencies(controlledSlip ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(controlledSlip_node src/controlledSlip_node.cpp)
+add_executable(controlledSlip ${SOURCES})
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(controlledSlip_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(controlledSlip_node
-#   ${catkin_LIBRARIES}
-# )
+ target_link_libraries(controlledSlip
+   ${catkin_LIBRARIES}
+ )
 
 #############
 ## Install ##
@@ -159,11 +161,11 @@ add_library(controlledSlip ${SOURCES})
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS controlledSlip controlledSlip_node
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+ install(TARGETS controlledSlip
+   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ )
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/

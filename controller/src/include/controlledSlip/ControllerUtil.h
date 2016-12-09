@@ -12,7 +12,7 @@ namespace controlledSlip {
         private:
 
             controlledSlip::IncomingData *incomingData;
-            ros::Publisher encodersPub;
+            ros::Publisher jointCmdPub;
 
         public:
 

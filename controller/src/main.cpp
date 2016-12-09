@@ -4,6 +4,8 @@
 
 #include "ros/ros.h"
 
+#include <time.h>
+
 using controlledSlip::IncomingData;
 using controlledSlip::DataCollector;
 using controlledSlip::ControllerUtil;
@@ -12,6 +14,7 @@ using controlledSlip::ControllerUtil;
 int main(int argc, char * argv[])
 {
 
+    std::cout << "adkjldfjksdafjhdsf\n";
     // initialize ROS
     ros::init(argc, argv, "controller");
     ros::NodeHandle nodeHandle;
@@ -31,17 +34,27 @@ int main(int argc, char * argv[])
     ControllerUtil controllerUtil(&incomingData);
     controllerUtil.init(nodeHandle);
 
+
+    for(int i = 0; i < 100; i++){
+
+
+        std::cout << i << "\n";
+        sleep(0.1);
+    }
+
+
+
     // open the hand
-    controllerUtil.openHand();
+    //controllerUtil.openHand();
 
     // TODO wait until a key is pressed
 
     // move the fingers towards the object and stop as soon as contact is detected
-    controllerUtil.graspApproach();
+    //controllerUtil.graspApproach();
 
     // TODO run the controller to stabilize the grip
 
-    // TODO stop the asyncronous spin
+    spinner.stop();
 
     return 0;
 }
