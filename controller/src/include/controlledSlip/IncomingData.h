@@ -17,6 +17,11 @@ namespace controlledSlip {
             sensor_msgs::JointState targetJointState;
             std_msgs::Float64MultiArray slipLabels;
 
+            bool bioTacDataReady;
+            bool actualJointStateReady;
+            bool slipLabelsReady;
+
+
 
         public:
 

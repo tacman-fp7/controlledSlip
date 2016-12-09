@@ -4,6 +4,9 @@
 #include "controlledSlip/IncomingData.h"
 
 #include "ros/ros.h"
+#include "sensor_msgs/JointState.h"
+
+#include <vector>
 
 namespace controlledSlip {
 
@@ -13,6 +16,8 @@ namespace controlledSlip {
 
             controlledSlip::IncomingData *incomingData;
             ros::Publisher jointCmdPub;
+            sensor_msgs::JointState initialJointState;
+            
 
         public:
 
@@ -24,12 +29,16 @@ namespace controlledSlip {
 
             bool graspApproach();
 
-            bool moveJoint(int jointNumber,double angle);
+            bool moveJoint(int joint,double angle);
 
+            bool moveJoints(const std::vector<int> &joints,std::vector<double> angles,double time,double stepSize);
 
         private:
 
-            void updateJoints();
+            void sendJoints();
+
+            bool setJoint(int joint,double angle);
+
 
     };
 

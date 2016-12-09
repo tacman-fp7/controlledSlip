@@ -24,17 +24,26 @@ bool DataCollector::subscribeAll(ros::NodeHandle &nodeHandle){
 void DataCollector::updateSlipLabelsCallback(const std_msgs::Float64MultiArray& slipLabels){
 
     incomingData->slipLabels = slipLabels;
+    if (!incomingData->slipLabelsReady){
+        incomingData->slipLabelsReady = true;
+    }
 }
 
 
 void DataCollector::updateJointStateCallback(const sensor_msgs::JointState& actualJointState){
 
     incomingData->actualJointState = actualJointState;
+    if (!incomingData->actualJointStateReady){
+        incomingData->actualJointStateReady = true;
+    }
 }
 
 
 void DataCollector::updateBioTacDataCallback(const biotacs::BT& bioTacData){
 
     incomingData->bioTacData = bioTacData;
+    if (!incomingData->bioTacDataReady){
+        incomingData->bioTacDataReady = true;
+    }
 }
 

@@ -13,8 +13,7 @@ using controlledSlip::ControllerUtil;
 
 int main(int argc, char * argv[])
 {
-
-    std::cout << "adkjldfjksdafjhdsf\n";
+    std::cout << "daf;kjadslfkjf";
     // initialize ROS
     ros::init(argc, argv, "controller");
     ros::NodeHandle nodeHandle;
@@ -30,22 +29,55 @@ int main(int argc, char * argv[])
     ros::AsyncSpinner spinner(3); // use 3 threads
     spinner.start();
 
+    ros::Duration(0.5).sleep();
+
     // controllerUtil is used to control the joints of the hand
     ControllerUtil controllerUtil(&incomingData);
     controllerUtil.init(nodeHandle);
 
+    ros::Rate loopRate(10);
 
-    for(int i = 0; i < 100; i++){
+    while (!ros::ok()){
 
+        std::cout << "---------\n";
 
-        std::cout << i << "\n";
-        sleep(0.1);
+        std::cout << "Slip labels - ";
+        if (incomingData.slipLabelsReady){
+            for(int j = 0; j < 4; j++){
+                std::cout <<  incomingData.slipLabels.data[j] << " - ";
+            }
+        } else {
+            std::cout << "data not available";
+        }
+        std::cout << "\n";
+        
+        std::cout << "Biotac - ";
+        if (incomingData.bioTacDataReady){
+            for(int j = 0; j < 4; j++){
+                std::cout <<  incomingData.bioTacData.BTTared[j].Pdc << " - ";
+            }
+        } else {
+            std::cout << "data not available";
+        }
+        std::cout << "\n";
+        
+        std::cout << "Joints - ";
+        if (incomingData.actualJointStateReady){
+            for(int j = 0; j < 16; j++){
+                std::cout << j << ": " << incomingData.actualJointState.position[j] << " - ";
+            }
+        } else {
+            std::cout << "data not available";
+        }
+        std::cout << "\n";
+
+        loopRate.sleep();
     }
 
 
 
     // open the hand
-    //controllerUtil.openHand();
+    controllerUtil.openHand();
 
     // TODO wait until a key is pressed
 
