@@ -5,7 +5,11 @@ project(controlledSlip)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
- roscpp)
+  roscpp
+  rospy
+  std_msgs
+)
+
 
 set(SOURCES
     controller/src/main.cpp
@@ -108,9 +112,9 @@ set(HEADERS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES controlledSlip
-  CATKIN_DEPENDS roscpp
+  INCLUDE_DIRS controller/src/include
+#  LIBRARIES abc
+   CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
