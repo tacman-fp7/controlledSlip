@@ -63,9 +63,9 @@ bool ControllerUtil::graspApproach(double angleStep,double timeStep){
     std::vector<bool> contact(3,false);
     bool allInContact = false;
 
-    joints[0] = 1; fingers[0] = 0; thresholds[0] = 50; maxAngles[0] = 1.0;
-    joints[1] = 5; fingers[1] = 1; thresholds[1] = 50; maxAngles[1] = 1.0;
-    joints[2] = 13; fingers[2] = 3; thresholds[2] = 50; maxAngles[2] = 1.0;
+    joints[0] = 1; fingers[0] = 0; thresholds[0] = 50; maxAngles[0] = 1.5;
+    joints[1] = 5; fingers[1] = 1; thresholds[1] = 50; maxAngles[1] = 1.5;
+    joints[2] = 14; fingers[2] = 3; thresholds[2] = 50; maxAngles[2] = 1.5;
 
     while(!allInContact){
 
