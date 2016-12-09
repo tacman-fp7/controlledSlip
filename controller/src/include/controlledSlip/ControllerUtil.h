@@ -2,7 +2,7 @@
 #define __CONTROLLEDSLIP_CONTROLLERUTIL_H__
 
 #include "ros/ros.h"
-
+#include "controlledSlip/IncomingData.h"
 
 namespace controlledSlip {
 
@@ -10,7 +10,7 @@ namespace controlledSlip {
 
         private:
 
-            IncomingData *incomingData;
+            controlledSlip::IncomingData *incomingData;
             ros::Publisher encodersPub;
 
         public:
