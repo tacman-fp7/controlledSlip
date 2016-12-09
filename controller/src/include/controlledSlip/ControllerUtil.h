@@ -27,7 +27,7 @@ namespace controlledSlip {
 
             bool openHand();
 
-            bool graspApproach();
+            bool graspApproach(double angleStep,double timeStep);
 
             bool moveJoint(int joint,double angle);
 

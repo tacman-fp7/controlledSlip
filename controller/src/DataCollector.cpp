@@ -14,7 +14,7 @@ bool DataCollector::subscribeAll(ros::NodeHandle &nodeHandle){
     // subscribe to the biotacs topic
     slipLabelsSub = nodeHandle.subscribe("slip_labels",1,&DataCollector::updateSlipLabelsCallback,this);
     // subscribe to the encoders topic
-    encodersSub = nodeHandle.subscribe("/allegroHand/joint_states",1,&DataCollector::updateJointStateCallback,this);
+    actualJointStateSub = nodeHandle.subscribe("/allegroHand_0/joint_states",1,&DataCollector::updateJointStateCallback,this);
     // subscribe to the biotacs topic
     encodersSub = nodeHandle.subscribe("/biotacs",1,&DataCollector::updateBioTacDataCallback,this);
 

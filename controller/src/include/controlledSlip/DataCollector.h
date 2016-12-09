@@ -16,6 +16,7 @@ namespace controlledSlip {
 
             controlledSlip::IncomingData *incomingData;
             ros::Subscriber slipLabelsSub;
+            ros::Subscriber actualJointStateSub;
             ros::Subscriber encodersSub;
 
         public:

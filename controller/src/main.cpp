@@ -13,7 +13,7 @@ using controlledSlip::ControllerUtil;
 
 int main(int argc, char * argv[])
 {
-    std::cout << "daf;kjadslfkjf";
+
     // initialize ROS
     ros::init(argc, argv, "controller");
     ros::NodeHandle nodeHandle;
