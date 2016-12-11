@@ -85,7 +85,7 @@ int main(int argc, char * argv[])
     // TODO wait until a key is pressed
 
     // move the fingers towards the object and stop as soon as contact is detected
-    double angleStep = 0.016,timeStep = 0.05;
+    double angleStep = 0.0032,timeStep = 0.01;
     controllerUtil.graspApproach(angleStep,timeStep);
 
     // TODO run the controller to stabilize the grip
