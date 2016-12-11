@@ -78,11 +78,15 @@ int main(int argc, char * argv[])
 
     // open the hand
     controllerUtil.openHand();
+    std::cout << "waiting.....";
+    ros::Duration(2).sleep();
+    std::cout << "done\n";
 
     // TODO wait until a key is pressed
 
     // move the fingers towards the object and stop as soon as contact is detected
-    //controllerUtil.graspApproach();
+    double angleStep = 0.016,timeStep = 0.05;
+    controllerUtil.graspApproach(angleStep,timeStep);
 
     // TODO run the controller to stabilize the grip
 

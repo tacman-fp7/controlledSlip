@@ -32,22 +32,22 @@ bool ControllerUtil::openHand(){
     std::vector<int> joints(16);
     std::vector<double> angles(16);
 
-    joints[0] = 0; angles[0] = 0.0;
-    joints[1] = 1; angles[1] = 0.0;
-    joints[2] = 2; angles[2] = 0.5;
-    joints[3] = 3; angles[3] = 0.0;
-    joints[4] = 4; angles[4] = 0.0;
-    joints[5] = 5; angles[5] = 0.0;
-    joints[6] = 6; angles[6] = 0.5;
-    joints[7] = 7; angles[7] = 0.0;
+    joints[0] = 0; angles[0] = 0.13;
+    joints[1] = 1; angles[1] = 0.8; // variable
+    joints[2] = 2; angles[2] = -0.17;
+    joints[3] = 3; angles[3] = -0.23;
+    joints[4] = 4; angles[4] = 0.13;
+    joints[5] = 5; angles[5] = 0.8; // variable
+    joints[6] = 6; angles[6] = -0.17;
+    joints[7] = 7; angles[7] = -0.23;
     joints[8] = 8; angles[8] = 0.0;
     joints[9] = 9; angles[9] = 0.0;
     joints[10] = 10; angles[10] = 0.0;
     joints[11] = 11; angles[11] = 0.0;
-    joints[12] = 12; angles[12] = 1.39;
+    joints[12] = 12; angles[12] = 1.40;
     joints[13] = 13; angles[13] = 0.0;
-    joints[14] = 14; angles[14] = 0.0;
-    joints[15] = 15; angles[15] = 0.5;
+    joints[14] = 14; angles[14] = 0.42; // variable
+    joints[15] = 15; angles[15] = -0.17;
 
     moveJoints(joints,angles,2.0,0.05);
 
@@ -61,22 +61,28 @@ bool ControllerUtil::graspApproach(double angleStep,double timeStep){
     std::vector<int> thresholds(3);
     std::vector<double> maxAngles(3);
     std::vector<bool> contact(3,false);
+    std::vector<bool> disabled(3);
     bool allInContact = false;
 
-    joints[0] = 1; fingers[0] = 0; thresholds[0] = 50; maxAngles[0] = 1.5;
-    joints[1] = 5; fingers[1] = 1; thresholds[1] = 50; maxAngles[1] = 1.5;
-    joints[2] = 14; fingers[2] = 3; thresholds[2] = 50; maxAngles[2] = 1.5;
+    joints[0] = 1;  fingers[0] = 0; thresholds[0] = 300; maxAngles[0] = 1.6; disabled[0] = false;
+    joints[1] = 5;  fingers[1] = 1; thresholds[1] = 300; maxAngles[1] = 1.6; disabled[1] = false;
+    joints[2] = 14; fingers[2] = 3; thresholds[2] = 300; maxAngles[2] = 0.6; disabled[2] = true;
 
-    while(!allInContact){
-
+//    while(!allInContact){
+    while(true){
         for(int i = 0; i < joints.size(); i++){
-            if (!contact[i]){
+            if (!contact[i] && !disabled[i]){
                 double newAngle = incomingData->targetJointState.position[joints[i]] + angleStep;
                 if (newAngle < maxAngles[i]){
                     incomingData->targetJointState.position[joints[i]] = newAngle;
                 }
             }
         }
+
+        for(int i = 0; i < joints.size(); i++){
+            std::cout << fingers[i] << ": " << contact[i] << " " << incomingData->targetJointState.position[joints[i]] << "   ";
+        }
+        std::cout << "\n";
 
         sendJoints();
 
