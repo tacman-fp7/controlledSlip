@@ -90,22 +90,18 @@ int main(int argc, char * argv[])
     // open the hand
     controllerUtil.openHand();
     std::cout << "Initial position reached.\n";
-    ros::Duration(waitTimeBeforeGrasp).sleep();
-    std::cout << "Starting approach phase.\n";
-
-    // TODO wait until a key is pressed
+    
+    controllerUtil.waitForNextPhase();
 
     // move the fingers towards the object and stop as soon as contact is detected
-    controllerUtil.graspApproach(approachAngleStep,approachTimeStep); // angleStep,timeStep
+    std::cout << "Starting approach phase.\n";
+    controllerUtil.graspApproach(approachAngleStep,approachTimeStep);
 
-    std::cout << "Approach completed.\n";
-    std::cout << "Starting controlled slip.\n";
-
+    //std::cout << "Starting controlled slip.\n";
     //controllerUtil.controlSlip(slipAngleStepFW,slipAngleStepBW,slipTimeStep);
 
+    std::cout << "Starting releasing force.\n";    
     controllerUtil.releaseForce(forceReleaseAngleStep,forceReleaseTimeStep);
-
-    // TODO run the controller to stabilize the grip
 
     spinner.stop();
 

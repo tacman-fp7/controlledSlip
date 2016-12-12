@@ -17,6 +17,8 @@ bool DataCollector::subscribeAll(ros::NodeHandle &nodeHandle){
     actualJointStateSub = nodeHandle.subscribe("/allegroHand_0/joint_states",1,&DataCollector::updateJointStateCallback,this);
     // subscribe to the biotacs topic
     encodersSub = nodeHandle.subscribe("/biotacs",1,&DataCollector::updateBioTacDataCallback,this);
+    // subscribe to the keyPressed topic
+    keyPressedSub = nodeHandle.subscribe("/keyboard/keyup",1,&DataCollector::keyPressedCallBack,this);
 
 }
 
@@ -45,5 +47,11 @@ void DataCollector::updateBioTacDataCallback(const biotacs::BT& bioTacData){
     if (!incomingData->bioTacDataReady){
         incomingData->bioTacDataReady = true;
     }
+}
+
+void DataCollector::keyPressedCallBack(const keyboard::Key& key){
+
+    incomingData->key = key;
+    incomingData->keyPressed = true;
 }
 

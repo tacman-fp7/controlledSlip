@@ -38,6 +38,10 @@ namespace controlledSlip {
 
             bool moveJoints(const std::vector<int> &joints,std::vector<double> angles,double time,double stepSize);
 
+            void waitForNextPhase();
+
+            bool keyPressed();
+
         private:
 
             void sendJoints();

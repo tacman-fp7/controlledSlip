@@ -9,6 +9,8 @@ IncomingData::IncomingData(){
     actualJointStateReady = false;
     slipLabelsReady = false;
 
+    keyPressed = false;
+
 }
 
 double IncomingData::getBioTacPACVariance(){

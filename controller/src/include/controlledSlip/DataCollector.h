@@ -7,6 +7,7 @@
 #include "biotacs/BT.h"
 #include "sensor_msgs/JointState.h"
 #include "std_msgs/Float64MultiArray.h"
+#include "keyboard/Key.h"
 
 namespace controlledSlip {
 
@@ -18,6 +19,7 @@ namespace controlledSlip {
             ros::Subscriber slipLabelsSub;
             ros::Subscriber actualJointStateSub;
             ros::Subscriber encodersSub;
+            ros::Subscriber keyPressedSub;
 
         public:
 
@@ -30,6 +32,8 @@ namespace controlledSlip {
             void updateJointStateCallback(const sensor_msgs::JointState& jointState);
 
             void updateBioTacDataCallback(const biotacs::BT& bioTacData);
+
+            void keyPressedCallBack(const keyboard::Key& keyPressed);
 
     };
 

@@ -115,8 +115,8 @@ bool ControllerUtil::graspApproach(double angleStep,double timeStep){
     joints[ind] = 14; fingers[ind] = 3; thresholds[ind] = 400; maxAngles[ind] = 0.6; disabled[ind] = true;
 
 //    while(!allInContact){
-    double totalTime = 0.0;
-    while(totalTime < 6){
+
+    while(ros::ok() && !keyPressed()){
         for(int i = 0; i < joints.size(); i++){
             if (!contact[i] && !disabled[i]){
                 double newAngle = incomingData->targetJointState.position[joints[i]] + angleStep;
@@ -144,8 +144,6 @@ bool ControllerUtil::graspApproach(double angleStep,double timeStep){
             allInContact = allInContact && contact[i];
         }
 
-        totalTime += timeStep;
-
     }
 
 
@@ -156,7 +154,7 @@ bool ControllerUtil::releaseForce(double angleStep,double timeStep){
 
     int jointToMove = 1;
 
-    while (ros::ok()){
+    while (ros::ok() && !keyPressed()){
         
         incomingData->targetJointState.position[jointToMove] -= angleStep;
         sendJoints();
@@ -178,7 +176,7 @@ bool ControllerUtil::controlSlip(double angleStepFW,double angleStepBW,double ti
     int fingerNum = 0;
     int slipLabel;
 
-    while (ros::ok()){
+    while (ros::ok() && !keyPressed()){
         
         slipLabel = incomingData->slipLabels.data[fingerNum];
 
@@ -243,4 +241,24 @@ void ControllerUtil::sendJoints(){
 
     jointCmdPub.publish(incomingData->targetJointState);
 }
+
+void ControllerUtil::waitForNextPhase(){
+
+    while (ros::ok() && !keyPressed()){
+        ros::Duration(0.05).sleep();
+    }
+
+
+}
+
+bool ControllerUtil::keyPressed(){
+
+    if (incomingData->keyPressed == true){
+        incomingData->keyPressed = false;
+        return true;
+    }
+    return false;
+}
+
+
 
