@@ -29,6 +29,10 @@ namespace controlledSlip {
 
             bool graspApproach(double angleStep,double timeStep);
 
+            bool releaseForce(double angleStep,double timeStep);
+
+            bool controlSlip(double angleStepFW,double angleStepBW,double timeStep);
+
             bool moveJoint(int joint,double angle);
 
             bool moveJoints(const std::vector<int> &joints,std::vector<double> angles,double time,double stepSize);

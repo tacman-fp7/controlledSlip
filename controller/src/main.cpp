@@ -14,6 +14,16 @@ using controlledSlip::ControllerUtil;
 int main(int argc, char * argv[])
 {
 
+    // SETTINGS
+    int numberOfThreads = 3; // it should match the number of subscribers
+    double waitTimeDataReady = 0.5;
+    double waitTimeBeforeGrasp = 2.0;
+    int loopRateDebugging = 10;
+    bool debuggingEnabled = false;
+    double approachAngleStep = 0.002, approachTimeStep = 0.01;
+    double slipAngleStepFW = 0.0001,slipAngleStepBW = 0.0002,slipTimeStep = 0.01;
+    double forceReleaseAngleStep = 0.0001, forceReleaseTimeStep = 0.01;
+
     // initialize ROS
     ros::init(argc, argv, "controller");
     ros::NodeHandle nodeHandle;
@@ -26,18 +36,19 @@ int main(int argc, char * argv[])
     dataCollector.subscribeAll(nodeHandle);
 
     // start the asyncronous spinner used to check if new data is available at the topics
-    ros::AsyncSpinner spinner(3); // use 3 threads
+    ros::AsyncSpinner spinner(numberOfThreads);
     spinner.start();
 
-    ros::Duration(0.5).sleep();
+    // wait for all data to be ready
+    ros::Duration(waitTimeDataReady).sleep();
 
     // controllerUtil is used to control the joints of the hand
     ControllerUtil controllerUtil(&incomingData);
     controllerUtil.init(nodeHandle);
 
-    ros::Rate loopRate(10);
+    ros::Rate loopRate(loopRateDebugging);
 
-    while (!ros::ok()){
+    while (debuggingEnabled && ros::ok()){
 
         std::cout << "---------\n";
 
@@ -78,15 +89,21 @@ int main(int argc, char * argv[])
 
     // open the hand
     controllerUtil.openHand();
-    std::cout << "waiting.....";
-    ros::Duration(2).sleep();
-    std::cout << "done\n";
+    std::cout << "Initial position reached.\n";
+    ros::Duration(waitTimeBeforeGrasp).sleep();
+    std::cout << "Starting approach phase.\n";
 
     // TODO wait until a key is pressed
 
     // move the fingers towards the object and stop as soon as contact is detected
-    double angleStep = 0.0032,timeStep = 0.01;
-    controllerUtil.graspApproach(angleStep,timeStep);
+    controllerUtil.graspApproach(approachAngleStep,approachTimeStep); // angleStep,timeStep
+
+    std::cout << "Approach completed.\n";
+    std::cout << "Starting controlled slip.\n";
+
+    //controllerUtil.controlSlip(slipAngleStepFW,slipAngleStepBW,slipTimeStep);
+
+    controllerUtil.releaseForce(forceReleaseAngleStep,forceReleaseTimeStep);
 
     // TODO run the controller to stabilize the grip
 
