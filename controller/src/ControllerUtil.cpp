@@ -1,6 +1,8 @@
 #include "controlledSlip/ControllerUtil.h"
 
 #include "sensor_msgs/JointState.h"
+#include "std_msgs/Float64.h"
+
 #define NO_CONTACT 0
 #define STABLE_CONTACT 1
 #define SLIP_DETECTED 2
@@ -17,11 +19,8 @@ bool ControllerUtil::init(ros::NodeHandle &nodeHandle){
 
     jointCmdPub = nodeHandle.advertise<sensor_msgs::JointState>("/allegroHand_0/joint_cmd",1);
 
-    // for loop to be removed!!!
-    //for(int i = 0; i < 16; i++){
-    //    std::cout << "ciao" << i << "\n" << std::flush;
-    //    initialJointState.position[i] = 0.0;
-    //}
+    //pacVariancePub = nodeHandle.advertise<std_msgs::Float64>("/pacVariance",1);
+
     initialJointState = incomingData->actualJointState;
 
     incomingData->targetJointState = initialJointState;
@@ -163,6 +162,11 @@ bool ControllerUtil::releaseForce(double angleStep,double timeStep){
         sendJoints();
 
         ros::Duration(timeStep).sleep();
+
+        //std::cout << "PAC Variance: " << incomingData->getBioTacPACVariance() << "\n";
+
+        //incomingData->debugData.data = incomingData->getBioTacPACVariance();
+        //pacVariancePub.publish(incomingData->debugData);
     }
 
     return true;
@@ -204,9 +208,6 @@ bool ControllerUtil::moveJoints(const std::vector<int> &joints,std::vector<doubl
 
     sensor_msgs::JointState startingJointState = incomingData->targetJointState;
 
-    //std::cout << "joints: ";
-    //for(int j = 0; j < 16; j++) std::cout << incomingData->targetJointState.position[j] << " ";
-    //std::cout << "\n";
 
     for(double currTime = 0.0; currTime < time + timeStep; currTime += timeStep){
         
@@ -223,10 +224,6 @@ bool ControllerUtil::moveJoints(const std::vector<int> &joints,std::vector<doubl
         sendJoints();
 
         ros::Duration(timeStep).sleep();
-
-        //std::cout << "joints: ";
-        //for(int j = 0; j < 16; j++) std::cout << incomingData->targetJointState.position[j] << " ";
-        //std::cout << "\n";
 
     }
 

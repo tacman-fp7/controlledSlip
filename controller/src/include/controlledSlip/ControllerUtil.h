@@ -16,6 +16,7 @@ namespace controlledSlip {
 
             controlledSlip::IncomingData *incomingData;
             ros::Publisher jointCmdPub;
+            ros::Publisher pacVariancePub;
             sensor_msgs::JointState initialJointState;
             
 

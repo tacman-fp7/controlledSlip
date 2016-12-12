@@ -4,6 +4,8 @@
 #include "biotacs/BT.h"
 #include "sensor_msgs/JointState.h"
 #include "std_msgs/Float64MultiArray.h"
+#include "std_msgs/Float64.h"
+
 
 namespace controlledSlip {
 
@@ -17,6 +19,9 @@ namespace controlledSlip {
             sensor_msgs::JointState targetJointState;
             std_msgs::Float64MultiArray slipLabels;
 
+            std_msgs::Float64 debugData;
+
+
             bool bioTacDataReady;
             bool actualJointStateReady;
             bool slipLabelsReady;
@@ -26,6 +31,8 @@ namespace controlledSlip {
         public:
 
 			IncomingData();
+
+            double getBioTacPACVariance();
 
     };
 
