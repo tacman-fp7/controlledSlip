@@ -30,9 +30,15 @@ namespace controlledSlip {
 
             bool graspApproach(double angleStep,double timeStep);
 
+            bool increaseForceMultipleTimes(double angleStep,double timeStep);
+
             bool releaseForce(double angleStep,double timeStep);
 
-            bool controlSlip(double angleStepFW,double angleStepBW,double timeStep);
+            bool releaseAndIncreaseForce(double angleStep,double timeStep);
+
+            bool controlGrasp(double angleStepFW,double angleStepBW,double timeStep);
+
+            bool regrasp(double angleStep,double timeStep);
 
             bool moveJoint(int joint,double angle);
 

@@ -22,7 +22,9 @@ int main(int argc, char * argv[])
     bool debuggingEnabled = false;
     double approachAngleStep = 0.002, approachTimeStep = 0.01;
     double slipAngleStepFW = 0.0001,slipAngleStepBW = 0.0002,slipTimeStep = 0.01;
+    double regraspAngleStepFW = 0.0005,regraspAngleStepBW = 0.0,regraspTimeStep = 0.01;
     double forceReleaseAngleStep = 0.0001, forceReleaseTimeStep = 0.01;
+
 
     // initialize ROS
     ros::init(argc, argv, "controller");
@@ -97,11 +99,17 @@ int main(int argc, char * argv[])
     std::cout << "Starting approach phase.\n";
     controllerUtil.graspApproach(approachAngleStep,approachTimeStep);
 
-    //std::cout << "Starting controlled slip.\n";
-    //controllerUtil.controlSlip(slipAngleStepFW,slipAngleStepBW,slipTimeStep);
+//    std::cout << "Starting increasing force.\n";    
+//    controllerUtil.increaseForceMultipleTimes(forceReleaseAngleStep,forceReleaseTimeStep);
 
     std::cout << "Starting releasing force.\n";    
     controllerUtil.releaseForce(forceReleaseAngleStep,forceReleaseTimeStep);
+
+    //std::cout << "Starting controlled slip.\n";
+    //controllerUtil.controlGrasp(slipAngleStepFW,slipAngleStepBW,slipTimeStep);
+
+    //std::cout << "Starting regrasping.\n";
+    //controllerUtil.controlGrasp(regraspAngleStepFW,regraspAngleStepBW,regraspTimeStep);
 
     spinner.stop();
 

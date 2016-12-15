@@ -84,7 +84,7 @@ bool ControllerUtil::openHand(){
     joints[9] = 9; angles[9] = 0.0;
     joints[10] = 10; angles[10] = 0.0;
     joints[11] = 11; angles[11] = 0.0;
-    joints[12] = 12; angles[12] = 1.191;
+    joints[12] = 12; angles[12] = 1.151;//1.191
     joints[13] = 13; angles[13] = -0.043;
     joints[14] = 14; angles[14] = 0.414; // variable
     joints[15] = 15; angles[15] = -0.279;
@@ -108,11 +108,11 @@ bool ControllerUtil::graspApproach(double angleStep,double timeStep){
 
     int ind;
     ind = 0;
-    joints[ind] = 1;  fingers[ind] = 0; thresholds[ind] = 400; maxAngles[ind] = 2.0; disabled[ind] = false;
+    joints[ind] = 1;  fingers[ind] = 0; thresholds[ind] = 100; maxAngles[ind] = 2.0; disabled[ind] = false;
     ind++;
     //joints[ind] = 5;  fingers[ind] = 1; thresholds[ind] = 300; maxAngles[ind] = 1.6; disabled[ind] = false;
     //ind++;
-    joints[ind] = 14; fingers[ind] = 3; thresholds[ind] = 400; maxAngles[ind] = 0.6; disabled[ind] = true;
+    joints[ind] = 14; fingers[ind] = 3; thresholds[ind] = 100; maxAngles[ind] = 0.6; disabled[ind] = true;
 
 //    while(!allInContact){
 
@@ -170,7 +170,73 @@ bool ControllerUtil::releaseForce(double angleStep,double timeStep){
     return true;
 }
 
-bool ControllerUtil::controlSlip(double angleStepFW,double angleStepBW,double timeStep){
+bool ControllerUtil::increaseForceMultipleTimes(double angleStep,double timeStep){
+
+    int jointToMove = 1;
+
+    double threshold = 140,thresholdStepSize = 40;
+
+    angleStep = 0.0012;
+
+    while (ros::ok() && !keyPressed()){
+        
+        
+        if (incomingData->bioTacData.BTTared[0].Pdc < threshold){
+            incomingData->targetJointState.position[jointToMove] += angleStep;
+        } else {
+            ros::Duration(2.0).sleep();
+            threshold += thresholdStepSize;
+        }
+
+        sendJoints();
+
+        ros::Duration(timeStep).sleep();
+
+
+    }
+
+    return true;
+}
+
+bool ControllerUtil::releaseAndIncreaseForce(double angleStep,double timeStep){
+
+    int jointToMove = 1;
+
+    
+
+    double minLimit = 105,maxLimit = 140;
+    bool slipping = false;
+
+    while (ros::ok() && !keyPressed()){
+
+        if (incomingData->bioTacData.BTTared[0].Pdc > minLimit && !slipping){
+        
+            incomingData->targetJointState.position[jointToMove] -= angleStep;
+
+        } else {
+
+            slipping = true;
+            if (incomingData->bioTacData.BTTared[0].Pdc < maxLimit){
+                incomingData->targetJointState.position[jointToMove] += angleStep*5;
+            } else {
+                slipping = false;
+            }
+
+        }
+        sendJoints();
+
+        ros::Duration(timeStep).sleep();
+
+        //std::cout << "PAC Variance: " << incomingData->getBioTacPACVariance() << "\n";
+
+        //incomingData->debugData.data = incomingData->getBioTacPACVariance();
+        //pacVariancePub.publish(incomingData->debugData);
+    }
+
+    return true;
+}
+
+bool ControllerUtil::controlGrasp(double angleStepFW,double angleStepBW,double timeStep){
 
     int jointToMove = 1;
     int fingerNum = 0;
@@ -193,6 +259,7 @@ bool ControllerUtil::controlSlip(double angleStepFW,double angleStepBW,double ti
 
     return true;
 }
+
 
 bool ControllerUtil::moveJoint(int joint,double angle){
 
